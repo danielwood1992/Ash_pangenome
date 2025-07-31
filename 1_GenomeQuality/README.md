@@ -8,3 +8,4 @@
 ###### 1_3.4_addblast.sh - adds blast results to blobtools object
 ###### 1_3.5_addcoverage.sh - adds PacBio coverage information to blobtools object
 ###### 1_3.6_blobtoolsview.txt - instructions on how to view the blobtools output (GUI)
+###### 1_4_pc_in_23.sh - for the cantata assemblies, calculates the % of sequence in the 23 largest scaffolds
