@@ -1,5 +1,5 @@
 # European ash pangenome scripts
-### Scripts associated with ash pangenome publication - https://doi.org/10.1101/2025.07.16.665114
+### Scripts associated with ash pangenome publication - preprint https://doi.org/10.1101/2025.07.16.665114
 ### Subfolders: 
 1_GenomeQC - QCing the phased genome assembly from Cantata Bio
 
