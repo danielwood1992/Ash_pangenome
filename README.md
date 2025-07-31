@@ -3,3 +3,6 @@
 ### Subfolders: 
 #### 1_GenomeQC - QCing the phased genome assembly from Cantata Bio
 
+
+
+#### Note 1: Scripts containing ###ARRAY_BIT### are ran using a custom gridengine submission script (usage qarray.sh your_script.sh), see https://github.com/danielwood1992/qarray_gridengine_slurm for details 
