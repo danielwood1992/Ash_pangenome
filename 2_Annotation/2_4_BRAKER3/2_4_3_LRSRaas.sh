@@ -11,7 +11,7 @@
 
 #subfunctions
 sub1="sub_2_4_3_1_fastaoneline.sh";
-sub2="/data/home/mpx545/scripts/PG2_RealData/PG2_4_Annotation/PG2_4_4_BRAKER3/sub_PG2_4_4_9.1_longesttranscript.pl ";
+sub2="sub_2_4_3_2_longestaa.pl";
 
 #For SGE_TASK_ID = 1-10, gets a long read and short read directory...
 dir1="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_4_Annotation/PG2_4_4_7.1._bam1.$SGE_TASK_ID";
@@ -39,5 +39,6 @@ sed -i "s/>/>LR.run$SGE_TASK_ID/g" $dir2/$braker_file.aa.aa
 sh $sub1 $dir2/$braker_file.aa.aa;
 perl $sub2 $dir2/$braker_file.aa.aa.oneline.fasta;
 cp $dir2/$braker_file.aa.aa.oneline.fasta.longest.fa $ortho_dir/run.$SGE_TASK_ID.LR.fa;
+
 
 
