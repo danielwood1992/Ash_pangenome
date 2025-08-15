@@ -5,7 +5,7 @@
 ##### sub_2_4_3_1_fastaoneline.sh - converts fasta from interleaved to non-interleaved
 ##### sub_2_4_3_2_longestaa.pl - perl script, gets the longest amino acid sequence per gene from the BRAKER .aa files
 #### 2_4_4_orthofinder.sh - runs OrthoFinder v2.5.5 on the amino acid sequences from the 10 runs of LR BRAKER3 and SR BRAKER3.
-#### 2_4_5_overlaps.sh - . This script takes the outputs of Orthofinder, and within each Orthogroup across runs identifies non-overlapping sets of gene, noting how many are found across different LR and SR runs, and selecting the longest of these. . Uses subfunctions below
+#### 2_4_5_overlaps.sh - . This script takes the outputs of Orthofinder, and within each Orthogroup across runs identifies non-overlapping sets of gene, noting how many are found across different LR and SR runs, and selecting the longest of these. For each of these, outputs a .gt file and an amino acid fasta file, with information from each of the individual runs. Uses the subfunctions below
 ##### sub_2_4_5_1_findbeds.pl - for an Orthogroups.txt file and a list of gtfs, for each member of each Orthogroup, extracts the location information for that gene from the relevant gtf and outputs them all in a bed file, one per Orthogroup. Also outputs the amino acids.
 ##### sub_2_4_5_2_splitfile.pl - for non-overlapping groups within an ortholog, outputs one bed entry per run of BRAKER (the longest) into a new file per non-overlapping group.
 ##### sub_2_4_5_3_longestbed.sh - very short awk command that selects the longest bed entry for each of the non-overlapping orthogroups
