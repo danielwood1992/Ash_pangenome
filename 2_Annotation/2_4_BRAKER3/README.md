@@ -11,3 +11,4 @@
 ##### sub_2_4_5_3_longestbed.sh - very short awk command that selects the longest bed entry for each of the non-overlapping orthogroups
 ##### sub_2_4_5_4_getfinalgtf.pl - for each representative gene sequnece, retrieves the relevant gtf entries for each run
 ##### sub_2_4_5_5_getfinalaas.pl - for each representative gene sequence, retrieves the relevant amino acids from each .fa from a BRAKER run (which were annotated with a unique run ID in the fasa header in 2_4_3_LRSRaas.sh
+#### 2_4_6_consistency.R - R script that uses the output of 2_4_5 to summarise how many genes are consistently annotated across the SR and LR runs.
