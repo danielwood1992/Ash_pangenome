@@ -99,3 +99,18 @@ perl $sub5 $aa_location/run_list.txt $dir/$name.PG2_4_4_10.2.results.longest.bed
 #Copies these to a new orthofinder folder for subsequent validation
 cp $dir/$name.PG2_4_4_10.2.results.longest.bed.aa.fasta /data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_4_Annotation/PG2_4_5_Validation/All_for_Orthofinder
 
+
+perl /data/home/mpx545/scripts/PG2_RealData/PG2_4_Annotation/PG2_4_4_BRAKER3/sub_PG2_4_4_4.2_getfinalaas.pl $aa_location/run_list.txt $dir/$name.PG2_4_4_10.2.results.longest.bed;
+
+cp $dir/$name.PG2_4_4_10.2.results.longest.bed.aa.fasta /data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_4_Annotation/PG2_4_5_Validation/All_for_Orthofinder
+
+#apptainer exec /data/home/mpx545/docker_stuff/braker3_lr/braker3_lr.sif getAnnoFastaFromJoingenes.py -g $genome -o $braker_file.aa -f $braker_file;
+#sed -i "s/>/>$name./g" $braker_file.aa.aa;
+#perl /data/home/mpx545/scripts/fasta_oneline.pl $braker_file.aa.aa;
+#grep -A 1 "t1" $braker_file.aa.aa.oneline.fasta | grep -v "\-\-" > $braker_file.aa.aa.oneline.t1;
+
+#So then once this is done, you will need to run orthofinder again on all of them.
+
+
+
+
