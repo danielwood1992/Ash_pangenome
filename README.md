@@ -3,6 +3,7 @@
 ### Subfolders: 
 1_GenomeQuality - Quality assesment of the phased genome assemblies from Cantata Bio (BATG-1.0 and haplotype 2)
 2_Annotation - Annotation of BATG-1.0 using BRAKER3
+3_ONT_TrimMapSNP - Scripts for QCing/Trimming ONT data, mapping it to BATG-1.0, calling SNPs and producing a PCA for these
 
 Note 1: Scripts containing ###ARRAY_BIT### are ran using a custom gridengine submission script (usage qarray.sh your_script.sh), see https://github.com/danielwood1992/qarray_gridengine_slurm for details 
 
