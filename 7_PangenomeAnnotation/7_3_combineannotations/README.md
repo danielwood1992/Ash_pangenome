@@ -8,9 +8,28 @@
 #### sub_7_3_2_3_longestbed.sh - gets the longest entry in the bed files of sequence
 #### sub_7_3_2_4_getaas.pl - for each of the final genes, retrieves the amino acid sequeneces
 ### 7_3_3_pangenome_orthofinder.sh - for each set of predicted proteins from the individually annotated fasta files, and the BATG-1.0 proteins, runs Orthofinder
+#### 7_3_4_gtf2refcoords.sh - this uses the SVs used to build the fasta to convert coordinates in the gtf file from those in the converted fasta co-ordinate system, to the BATG-1.0 coordinate system. If a gene overlaps an insertion, it will be included like this: Scaf 400+INS.500, i.e. the position is at the 500th base inside an insertion that starts at position 400 in the reference genome. Uses the following subfunctions: 
+#### sub_7_3_4_1_convertgtf.pl - does the conversion described above. Outputs: braker.gtf.bed.refcoords for the LR and SR annotations.
+### 7_3_5_genesfromorthologs_pan.sh - using the LR/SR gtfs converted to reference co-ordinates, splits Orthologs into non-overlapping genes. Uses the below subfunction to do this: 
+#### sub_7_3_5_1_genesfromorthologs.pl - does this. Outputs are a bunch of files e.g. OG000001.bed.
+
+### 7_3_6_geneSVoverlaps.sh - splits bed files into genes, and determines SV overlaps
+#### sub_7_3_6_1_splitbeds.sh - splits bed files using the following subfunctions:
+##### i) sub_7_3_6_1_1_splitbeds.pl - splits the bedfile into non-overlapping genes: e.g. OG00001.bed.0.txt
+##### ii) sub_7_3_6_1_2_getvcf.pl - does...something
+
+
+
+
 ### 7_3_4_geneSVoverlaps.sh - from the output of Orthofinder, splits genes by overlapping sequence as before - also identifies which SVs overlap with which genes in which individuals. Runs two subfunctions
 #### i) sub_7_3_4_1_splitbed_getSVoverlaps.sh - for each of the genes described by an orthogroup, runs subfunction below:
 ##### sub_7_3_4_1_1_SVoverlaps.pl - splits each into non-overlapping orthologs
 ##### sub_7_3_4_1_2_NAME.pl
 
 #### i) sub_7_3_4_2_summariseoverlap.pl
+
+
+
+
+
+
