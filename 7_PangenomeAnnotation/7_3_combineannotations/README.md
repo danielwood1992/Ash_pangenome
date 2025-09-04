@@ -12,24 +12,12 @@
 #### sub_7_3_4_1_convertgtf.pl - does the conversion described above. Outputs: braker.gtf.bed.refcoords for the LR and SR annotations.
 ### 7_3_5_genesfromorthologs_pan.sh - using the LR/SR gtfs converted to reference co-ordinates, splits Orthologs into non-overlapping genes. Uses the below subfunction to do this: 
 #### sub_7_3_5_1_genesfromorthologs.pl - does this. Outputs are a bunch of files e.g. OG000001.bed.
-
 ### 7_3_6_geneSVoverlaps.sh - splits bed files into genes, and determines SV overlaps
-#### sub_7_3_6_1_splitbeds.sh - splits bed files using the following subfunctions:
-##### i) sub_7_3_6_1_1_splitbeds.pl - splits the bedfile into non-overlapping genes: e.g. OG00001.bed.0.txt
-##### ii) sub_7_3_6_1_2_getvcf.pl - does...something
-
-
-
-
-### 7_3_4_geneSVoverlaps.sh - from the output of Orthofinder, splits genes by overlapping sequence as before - also identifies which SVs overlap with which genes in which individuals. Runs two subfunctions
-#### i) sub_7_3_4_1_splitbed_getSVoverlaps.sh - for each of the genes described by an orthogroup, runs subfunction below:
-##### sub_7_3_4_1_1_SVoverlaps.pl - splits each into non-overlapping orthologs
-##### sub_7_3_4_1_2_NAME.pl
-
-#### i) sub_7_3_4_2_summariseoverlap.pl
-
-
-
-
-
+#### i) sub_7_3_6_1_splitbeds.sh - splits bed files using the following subfunctions:
+##### i.1) sub_7_3_6_1_1_splitbeds.pl - splits the bedfile into non-overlapping genes: e.g. OG00001.bed.0.txt
+##### i.2) sub_7_3_6_1_2_getvcf.pl - identifies SVs overlapping with genes for each individual, and SVs in that region for individuals lacking the gene - outputs OG00001.bed.0.txt.SVs
+### ii) sub_7_3_6_2_summariseSVoverlap.pl - summarises the overlappig genes/SVs - outputs OG00001.bed.0.txt.SVs.SVsGenes
+### 7_3_7_combineOverlaps.sh - combines the overlapping gene/SV files
+#### sub_7_3_7_1_F1.pl - for genes overlapping with SVs, calculates an F1 score for the association between the gene (or lack of gene) and the SV
+#### 7_3_8_plotfilterF1s.R - R script to filter by F1 score, make plots. Output is PG2_20_9_results.txt.F1.filtered (for those that passed filtering) and PG2_20_9_results.txt.F1.excluded (for those that didn't)
 

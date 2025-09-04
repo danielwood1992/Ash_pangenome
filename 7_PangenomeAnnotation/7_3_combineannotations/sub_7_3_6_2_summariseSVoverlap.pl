@@ -1,31 +1,36 @@
 use POSIX;
 use strict;
-#I guess step 1 we need to ask is: are there further genes that need to be split, i.e. ones that are inside SVs? 
 
-#Note: this method assumes that two overlapping genes that are the same ortholog, but don't overlap inside the SV, are the same gene.
-#May need to iron this out at a later stage I guess?
-#
-
+#Summarises the overlaps from the OG00000.bed.0.txt.SVs
 my $file = $ARGV[0];
+#This looks like this:
+#With a gene:
+#Scf9YQZ_15_HRSCAF_27    17163512+INS.7786       17163512+INS.8448       g9537.t1        DW-S03_PG79     LR      OG0000016       17163512        Scf9YQZ_15_HRSCAF_27;17163512;17163512;INS;11157
+#Without a gene
+#Scf9YQZ_15_HRSCAF_27    17163512        17163512        NOGENE  DW_S31_PG121    NA      NA      NA      Scf9YQZ_15_HRSCAF_27;17155739;17168465;DEL;-12726
+
+
 open(OUT, ">$file.SVsGenes");
 my ($line, @temp, %sv, %has_gene, %lacks_gene, %has_gene_svs, %lacks_gene_svs, $item, @temp2, $gene_num);
 my $type = "extra"; 
-#Column with type, where the type will either be "extra" (an extra gene from the reference), or "missing", a missing gene from the reference.
 my $all_present = "T";
 open(IN, "<$file");
+
 while(!eof(IN)){
 	$line = readline *IN;
 	chomp $line;
 	@temp = split/\t/, $line;
 	
+	#If it's the reference, an existing gene can only be missing	
 	if ($temp[4] eq "LR_SR"){
-		$type = "missing";
+		$type = "missing"; #So I guess missing relative to the reference
 	}
 	
 	@temp2 = split/:/, $temp[8];
 	if ($temp[3] eq "NOGENE"){
-		$all_present = "F"; #makes note that some are missing
+		$all_present = "F"; #makes note that some are missing a gene
 		$lacks_gene{$temp[4]} = ""; #Notes whih individuals have no gene in this region
+					    #note that each individual only appears in the file once
 	
 		foreach $item (@temp2){
 			$sv{$item}++; #adds SV to the list
@@ -49,8 +54,7 @@ my $sv_in_absent;
 
 my ($N_nogene, $N_gene, $N_nogene, $N_SV, $N_SV_Gene, $N_NSV_Gene, $N_SV_NGene, $N_NSV_NGene);
 
-
-#So let's say we want...
+#Output file
 #N_Genes\tN_NoGenes\tN_SVs\tSV+Gene, NoSV+Gene, SV+NoGene, NoSV+NoGene
 
 if ($all_present eq "T" && $type eq "missing"){

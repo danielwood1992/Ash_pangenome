@@ -37,13 +37,13 @@ while(!eof(IN)){
 	chomp $line;
 	@temp = split/\t/, $line;
 #	print "$temp[0]\t$temp[1]\t$temp[2]\n";
-	$temp[1] =~ s/\+.*//g;
+	$temp[1] =~ s/\+.*//g; #Keeps only reference sequences
 	$temp[2] =~ s/\+.*//g;
 
 	if ($first eq "T"){
 		$start = $temp[1];
 		$end = $temp[2];
-		$chrom = $temp[0]; #they should all be on the same chromosome
+		$chrom = $temp[0]; #they should all be on the same chromosome if they overlap
 		$first = "F";
 	}
 
@@ -55,11 +55,10 @@ while(!eof(IN)){
 	if ($temp[2] > $end){
 		$end = $temp[2];
 	}
-
+	#Gets the largest span for the gene
 }
 
 open(IN, "<$input_file");
-
 
 while(!eof(IN)){
 	$line = readline *IN;
@@ -67,13 +66,16 @@ while(!eof(IN)){
 	@temp = split/\t/, $line;
 #	print "$temp[0]\t$temp[1]\t$temp[2]\n";
 	$temp[1] =~ s/\+.*//g;
-	$temp[2] =~ s/\+.*//g;
+	$temp[2] =~ s/\+.*//g; #Note: this does seem to still work with genes entirely within an insertion
+	#Scaf 50 50 overlaps with an insertion at 50, seemingly.
 
-	$name_hash{$temp[4]} = "yes"; #so this individual does have a gene present...
+	$name_hash{$temp[4]} = "yes"; #note which individuals have that gene
 
+	#Use bedtools to identify if that gene overlaps with any of the SVs in that individual
 	#Getting the overlap of the gene position with SVs for that individual...
 	$var = `module load bedtools && echo -e "$temp[0]\t$temp[1]\t$temp[2]" | bedtools intersect -a - -b $prefix/$temp[4].$suffix -wa -wb`;
 	#So then from the output of this, we want to get a list of the SVs involved I guess...
+	#...does this work for genes completely inside an insertion though?
 	@temp2 = split/\n/, $var;
 	$i = 0;
 	while ($i < scalar(@temp2)){
@@ -83,17 +85,19 @@ while(!eof(IN)){
 		$i++;
 	}
 	$to_print = join(":", @temp2);	
-	print OUT "$line\t$to_print\n"; #So that seems to work then.
-	#I guess the thing we can then work out is...whether they overlap...? Yes that would be easy as if they did overlap thanks to an SV, they would share that SV right?
-
+	print OUT "$line\t$to_print\n"; #Prints SV overlapping with gene for that individual
+	#This should print out each time a particular gene overlaps an SV
 }
+
+#For individuals lacking a gene at that position: see if there are any overlapping SVs
 my $item;
 foreach $item (keys %name_hash){
 	if ($name_hash{$item} eq "yes"){
 		#So if there is a gene in there, do nothing
 	}else{
+		#For individuals that don't have the gene, retrieve any SVs in that region
 		$var = `module load bedtools && echo -e "$chrom\t$start\t$end" | bedtools intersect -a - -b $prefix/$item.$suffix -wa -wb`;
-	#So then from the output of this, we want to get a list of the SVs involved I guess...
+
 	@temp2 = split/\n/, $var;
 	$i = 0;
 	while ($i < scalar(@temp2)){
@@ -103,7 +107,7 @@ foreach $item (keys %name_hash){
 		$i++;
 	}
 	$to_print = join(":", @temp2);	
-	print OUT "$chrom\t$start\t$end\tNOGENE\t$item\tNA\tNA\tNA\t$to_print\n"; #So that seems to work then.
+	print OUT "$chrom\t$start\t$end\tNOGENE\t$item\tNA\tNA\tNA\t$to_print\n"; #Prints SVs overlapping the region for individuals lacking the gene
 			
 	}
 }
