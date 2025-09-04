@@ -8,8 +8,9 @@
 ## 4_SVCalling - calling SVs from the ONT data
 ## 5_CharacteriseSVs - characterising frequency, lengths of SVs
 ## 6_constructpangenome - constructing pangenome using vg:
-
+## 7_PangenomeAnnotation - annotating the pangenome, explictly using SVs included in the pangenome
 ###Note 1: Scripts containing ###ARRAY_BIT### are ran using a custom gridengine submission script (usage qarray.sh your_script.sh), see https://github.com/danielwood1992/qarray_gridengine_slurm for details 
+
 
 
 
