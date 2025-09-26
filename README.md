@@ -9,7 +9,10 @@
 #### 5_CharacteriseSVs - characterising frequency, lengths of SVs
 #### 6_constructpangenome - constructing pangenome using vg:
 #### 7_PangenomeAnnotation - annotating the pangenome, explictly using SVs included in the pangenome
+#### 8_Construction_InSilicoPool  - constructing of the pangenome using vg; assessing quality of mapping, calling SVs, pools etc
+
 ####Note 1: Scripts containing ###ARRAY_BIT### are ran using a custom gridengine submission script (usage qarray.sh your_script.sh), see https://github.com/danielwood1992/qarray_gridengine_slurm for details 
+
 
 
 
