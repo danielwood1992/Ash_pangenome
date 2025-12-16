@@ -1,0 +1,2 @@
+/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_12_merge/DW_S31_PG121.PG2_12_1_results.txt.1_AND_2_OR_4.all_types.vcf.SUBSET.NC_4_4_5
+/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_12_merge/PG13.PG2_12_1_results.txt.1_AND_2_OR_4.all_types.vcf.SUBSET.NC_4_4_5

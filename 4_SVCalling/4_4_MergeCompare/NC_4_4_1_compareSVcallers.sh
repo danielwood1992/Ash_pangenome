@@ -125,7 +125,6 @@ comparison_function $svim_ont_shasta $outdir/$base_name.${results}.ST_1_AND_2_bo
 comparison_function $svim_ont_flye $outdir/$base_name.${results}.ST_1_AND_2_bothreadmapping.vcf "ST_1_AND_2_AND_5S";
 #1_2_6
 comparison_function $svim_ont_nextdenovo $outdir/$base_name.${results}.ST_1_AND_2_bothreadmapping.vcf "ST_1_AND_2_AND_6S";
-
 #3_4 - cantata vs shasta
 comparison_function $svim_cantata $svim_ont_shasta "ST_3S_AND_4S";
 #3_5 - cantata vs flye
