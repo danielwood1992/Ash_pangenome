@@ -8,8 +8,8 @@
 
 ####NC_2_2_3_TrimNewData.sh - trims short read RNA-seq data
 ####NC_2_2_3.1_TrimNewData_EAB.sh - trims short read data from Doonan et al. 2024, including polyG tails
-####NC_2_2_3.1_3.2_fastqc.sh - runs fastqc
-####NC_2_2_3.4_multiqc.sh - runs multiqc
+####NC_2_2_3.2_fastqc.sh - runs fastqc
+####NC_2_2_3.3_multiqc.sh - runs multiqc
 
 #### NC_2_2_3_starmap_OriginalData.sh - maps RNA-seq data to BATG-1.0 using star 2.7.10b (BATG-0.5 data only, from earlier version of annotation)
 #### NC_2_2_3_starmap_NewData.sh - maps the rest of the RNA-seq data to BATG-1.0 using star 2.7.10b (indiviudal sequencing from samples in pangenome, data from other studies)
