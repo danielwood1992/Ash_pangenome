@@ -17,7 +17,7 @@ echo $ARRAY_NUM;
 #$ -cwd
 #$ -pe smp 4
 #$ -l h_rt=240:0:0
-#$ -l h_vmem=7G
+#$ -l h_vmem=4G
 #$ -t ?
 #$ -tc 100
 #$ -e /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.err.txt
@@ -53,4 +53,4 @@ rm -r $outdir;
 mkdir $outdir;
 cd  $outdir;
 MODEL_NAME="r941_prom_sup_g5014"
-apptainer exec $clair3_dir/clair3_v1.0.5.sif /opt/bin/run_clair3.sh --include_all_ctgs --bam_fn=$bam_name --ref_fn=$genome --threads=${NSLOTS} --platform="ont" --model_path="/data/SBCS-BuggsLab-Ash/DanielWood/conda_environments/clair3_files/${MODEL_NAME}" --output=$outdir --print_ref_calls;
+apptainer exec $clair3_dir/clair3_v1.0.5.sif /opt/bin/run_clair3.sh --include_all_ctgs --bam_fn=$bam_name --ref_fn=$genome --threads=${NSLOTS} --platform="ont" --model_path="/data/SBCS-BuggsLab-Ash/DanielWood/conda_environments/clair3_files/${MODEL_NAME}" --output=$outdir --print_ref_calls --gvcf;

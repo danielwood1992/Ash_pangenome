@@ -4,8 +4,11 @@
 
 reusable_pipeline="/data/home/mpx545/scripts/reusable_slurm_pipeline/";
 names="/data/home/mpx545/scripts/PG2_RealData/PG2_5_ONTQC/filtered_reads_PG2_5_2.txt";
-head -n 1 $names > $names.tstPG2_22;
-names="$names.tstPG2_22";
+tail -n 3 $names > $names.last3;
+names=$names.last3;
+#head -n 47 $names > $names.top47;
+
+#names=$names.top47;
 
 ARRAY_NUM=$(cat $names | wc -l);
 ARRAY_NUM="$ARRAY_NUM $names";
@@ -25,7 +28,6 @@ echo $ARRAY_NUM;
 
 #Load modules
 #module load bwa/0.7.17;
-module load samtools/1.9;
 module load bcftools/1.19-gcc-12.2.0
 
 #Set progress tracking
@@ -43,11 +45,13 @@ name=$(echo $sample_name | rev | cut -f1 -d\/ | rev | cut -f1 -d\.)
 echo $name;
 bam_name=$dir/$name.$suffix;
 outdir=$bam_name.sorted.bam.clair
-vcf="$outdir/merge_output.gvcf.gz";
+vcf="$outdir/merge_output.vcf.gz";
 
 ls $vcf;
+bcftools query -f '[%DP]\n' $vcf \
+| awk '($1!="."){sum+=$1; n++} END{if(n>0) print sum/n}' > $vcf.dp;
 
-bcftools view $vcf | bcftools norm -m +any --fasta-ref $genome | bcftools +fill-tags -- -t all | bcftools plugin setGT - -- -t q -n . -i "FMT/DP < 8 | FMT/DP > 100" | bcftools view - -Ob -o $bam_name.tomerge.bcf;
-bcftools index $bam_name.tomerge.bcf;
+bcftools view $vcf | bcftools norm -m +any --fasta-ref $genome | bcftools +fill-tags -- -t all | bcftools plugin setGT - -- -t q -n . -i "FMT/DP < 8 | FMT/DP > 100" | bcftools view - -Ob -o $bam_name.tomerge.v2.bcf;
+bcftools index $bam_name.tomerge.v2.bcf;
 
 
