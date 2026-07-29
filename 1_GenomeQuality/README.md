@@ -12,3 +12,4 @@
 ###### NC_1_5.1_BATG0.5_map.sh - mapping short reads from BATG-0.5 to BATG-1.0
 ###### NC_1_5.2_callSNPs.sh - calling SNPs from BATG-1.0 vs. BATG-0.5
 ###### NC_1_5_SRcheck.sh - mapping 5 random individuals from Stocks et al. 2019 as well
+###### NC_1_6_combined_coverage.R - plot coverage of pacbio reads mapped to combined BATG-1.0 + hap2 files 
