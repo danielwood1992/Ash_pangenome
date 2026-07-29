@@ -15,3 +15,4 @@
 #### NC_4_4_5_calcF1plot.R - using the above results, calculates precision, recall, F1 scores for SV callign methods using the ONT data from the BATG-1.0 individual, assuming hap2 mapped to BATG-1.0 with calls from svim-asm represents the truth set
 #### NC_4_4_5.1_FigS5arrange.R - arrange data for precision/recall/F1 per SV type into Figure S5 panels
 
+#### NC_4_4_6_SVstats.R - plots numbers of SVs per caller (Figure S6)
