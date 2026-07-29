@@ -2,6 +2,7 @@
 #$ -cwd
 #$ -pe smp 12
 #$ -l h_rt=240:0:0
+#$ -l highmem
 #$ -l h_vmem=7G
 #$ -t 1-11
 #$ -tc 100
@@ -22,7 +23,7 @@ cd $braker_dir;
 #2 Generate a comma separated list of the bam files for short reads mapped to the assembly
 
 short_reads="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_4_Annotation";
-list=$(echo $(ls $short_reads/*.1.star2*bam) | sed 's/ /,/g'); #.1.star2*bam specifies short-read bams
+list=$(echo $(l/data/SBCS-BuggsLab-Ash/DanielWood/RR1_RecombinationRates/RR1_1_QCs $short_reads/*.1.star2*bam) | sed 's/ /,/g'); #.1.star2*bam specifies short-read bams
 echo $list;
 string1=$list;
 
