@@ -1,22 +1,22 @@
-#!/bin.bash
-#$ -cwd
-#$ -pe smp 1
-#$ -l h_rt=1:0:0
-#$ -l h_vmem=7G
-#$ -e /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.err.txt
-#$ -o /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.out.txt
+#!/bin/bash
+#SBATCH -n 1
+#SBATCH -t 1:0:0
+#SBATCH --mem-per-cpu=4G
+#SBATCH -e /gpfs/scratch/mpx545/PG2_AshPanGenome/joblog/%x.%A.%a.err.txt
+#SBATCH -o /gpfs/scratch/mpx545/PG2_AshPanGenome/joblog/%x.%A.%a.out.txt
 
 #Load modules
 
 module load bcftools/1.19-gcc-12.2.0;
 
 #Do for each of the major SV types
-type="INV";
+#type="INV";
+type="DUP";
 
 #Set progress tracking
 
 #file_list=$1;
-#outdir="/data/scratch/mpx545/PG2_AshPanGenome";
+#outdir="/gpfs/scratch/mpx545/PG2_AshPanGenome";
 outdir="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_12_cantata_test/NC_4_4_1.1_results";
 
 results="NC_4_4_1.1_ST_results.txt.$type";

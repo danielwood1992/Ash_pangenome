@@ -1,10 +1,9 @@
-#!/bin.bash
-#$ -cwd
-#$ -pe smp 1
-#$ -l h_rt=1:0:0
-#$ -l h_vmem=7G
-#$ -e /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.err.txt
-#$ -o /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.out.txt
+#!/bin/bash
+#SBATCH -n 1
+#SBATCH -t 1:0:0
+#SBATCH --mem-per-cpu=4G
+#SBATCH -e /gpfs/scratch/mpx545/PG2_AshPanGenome/joblog/%x.%A.%a.err.txt
+#SBATCH -o /gpfs/scratch/mpx545/PG2_AshPanGenome/joblog/%x.%A.%a.out.txt
 
 #Load modules
 
@@ -13,7 +12,7 @@ module load bcftools/1.19-gcc-12.2.0;
 #Set progress tracking
 
 #file_list=$1;
-#outdir="/data/scratch/mpx545/PG2_AshPanGenome";
+#outdir="/gpfs/scratch/mpx545/PG2_AshPanGenome";
 outdir="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_12_cantata_test/NC_4_4_1.1_results";
 
 results="NC_4_4_1.1_ST_results.txt";
@@ -34,6 +33,12 @@ svim_ont_shasta="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_12_cantata
 sniffles="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_7_SVCalling/PG2_7_2_sniffles/DW-S26_PGA5.hap1.rmdpq20.bam.hap1.sniffles.filt2.vcf";
 cutesv="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_7_SVCalling/PG2_7_5_cuteSV/DW-S26_PGA5.hap1.rmdpq20.bam.cuteSV.filt2.vcf";
 
+truncate -s 0 $results.type_list
+
+for file in $svim_cantata $svim_ont_flye $svim_ont_nextdenovo $svim_ont_shasta $sniffles $cutesv;
+	do bcftools query -f '%INFO/SVTYPE' $file | sort -u >> $outdir/$results.type_list;
+done;
+
 #DEL
 for file in $svim_cantata $svim_ont_flye $svim_ont_nextdenovo $svim_ont_shasta $sniffles $cutesv;
 	do bcftools view -i 'INFO/SVTYPE == "DEL"' $file > $file.DEL;
@@ -49,8 +54,12 @@ for file in $svim_cantata $svim_ont_flye $svim_ont_nextdenovo $svim_ont_shasta $
 	do bcftools view -i 'INFO/SVTYPE == "INV"' $file > $file.INV;
 done;	
 
+INV
+for file in $svim_cantata $svim_ont_flye $svim_ont_nextdenovo $svim_ont_shasta $sniffles $cutesv;
+	do bcftools view -i 'INFO/SVTYPE == "INV"' $file > $file.INV;
+done;	
 
-
-
-
+for file in $svim_cantata $svim_ont_flye $svim_ont_nextdenovo $svim_ont_shasta $sniffles $cutesv;
+	do bcftools view -i 'INFO/SVTYPE=="DUP" || INFO/SVTYPE=="DUP:INT" || INFO/SVTYPE=="DUP:TANDEM"' "$file" > "$file.DUP"
+done;	
 
