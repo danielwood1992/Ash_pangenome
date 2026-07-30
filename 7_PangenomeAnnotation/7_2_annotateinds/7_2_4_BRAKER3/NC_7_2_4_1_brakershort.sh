@@ -1,13 +1,10 @@
 ##JOB_NUM##
 
-
 #PG2_20_2
-names="/data/home/mpx545/scripts/PG2_RealData/PG2_5_ONTQC/filtered_reads_PG2_5_2.txt_nomandshurica.names";
-outdir="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_20_pangenome_annotation"
-#head -n 1 $names > $names.head1;
-#names=$names.head1;
-#tail -n+2 $names > $names.head2;
-#names=$names.head2;
+#Reversing the order of names, so it starts from the end...
+names="/data/home/mpx545/scripts/PG2_RealData/PG2_5_ONTQC/filtered_reads_PG2_5_2.txt_nomandshurica.names.reversed";
+head -n 40 $names > $names.40;
+names=$names.40;
 
 
 ARRAY_NUM=$(cat $names | wc -l);
@@ -15,16 +12,14 @@ ARRAY_NUM="$ARRAY_NUM $names";
 echo $ARRAY_NUM;
 
 ##ARRAY_BIT##
-
-#!/bin.bash
-#$ -cwd
-#$ -pe smp 8
-#$ -l h_rt=240:0:0
-#$ -l h_vmem=6G
-#$ -t ?
-#$ -tc 100
-#$ -e /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.err.txt
-#$ -o /data/scratch/mpx545/PG2_AshPanGenome/joblog/$JOB_NAME.$JOB_ID.$TASK_ID.out.txt
+#!/bin/bash --login
+#SBATCH --ntasks=8
+#SBATCH --time=240:0:0
+#SBATCH --partition=compute
+#SBATCH --mem-per-cpu=6G
+#SBATCH --array=?
+#SBATCH -o /gpfs/scratch/mpx545/joblog/batch.%x.%A.%a.out
+#SBATCH -e /gpfs/scratch/mpx545/joblog/batch.%x.%A.%a.err
 
 #Testing BRAKER3 installation..
 export BRAKER_SIF="/data/home/mpx545/docker_stuff/braker3.sif";
@@ -33,7 +28,7 @@ cd $braker_dir;
 
 file_list=$1;
 
-name=$(sed -n "${SGE_TASK_ID}p" $file_list | cut -f1);
+name=$(sed -n "${SLURM_ARRAY_TASK_ID}p" $file_list | cut -f1);
 
 outdir="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_20_pangenome_annotation";
 fasta="${outdir}/$name.PG2_20_2.vcf.PG2_20_2.temp1.txt.PG2_20_2.kept.vcf_lines.bed.mod.fasta";
@@ -51,7 +46,7 @@ string1=$list;
 orthodb="/data/home/mpx545/Viridiplantae.fa";
 
 #Output directory for the annotation for each individual
-path="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_20_pangenome_annotation/PG2_4_4_2/$name.PG2_4_4_5";
+path="/data/SBCS-BuggsLab-Ash/DanielWood/PG2_PanGenome/PG2_20_pangenome_annotation/PG2_4_4_2/$name.slurm.PG2_4_4_5";
 
 haplotype="hap1";
 dirbase="$outdir/PG2_20_4_1.$name.PG2_4_3.3";
@@ -77,5 +72,10 @@ echo "singularity exec /data/home/mpx545/docker_stuff/braker3.sif braker.pl --sp
 
 export AUGUSTUS_CONFIG_PATH="/data/SBCS-BuggsLab-Ash/DanielWood/docker_things/augustus_config";
 
-#Using the individual bams, protein sequence database, masking info, does annotation with BRAKER3
-singularity exec /data/home/mpx545/docker_stuff/braker3.sif braker.pl --AUGUSTUS_CONFIG_PATH=$AUGUSTUS_CONFIG_PATH --species=$name.$SGE_TASK_ID.$num.species --bam=$string1 --prot_seq=$orthodb --threads=${NSLOTS} --workingdir=$path --genome=$softmask_genome --useexisting;
+##ARRAY_BIT##
+#!/bin/bash --login
+#SBATCH --ntasks=8
+#SBATCH --time=240:0:0#Using the individual bams, protein sequence database, masking info, does annotation with BRAKER3
+#singularity exec /data/home/mpx545/docker_stuff/braker3.sif braker.pl --AUGUSTUS_CONFIG_PATH=$AUGUSTUS_CONFIG_PATH --species=$name.$SGE_TASK_ID.$num.species --bam=$string1 --prot_seq=$orthodb --threads=${NSLOTS} --workingdir=$path --genome=$softmask_genome --useexisting;
+
+apptainer exec /data/SBCS-BuggsLab-Ash/DanielWood/docker_things/braker3/braker3.sif braker.pl --AUGUSTUS_CONFIG_PATH=$AUGUSTUS_CONFIG_PATH --species=$name.$SLURM_ARRAY_TASK_ID.$num.species --bam=$string1 --prot_seq=$orthodb --threads=${SLURM_NTASKS} --workingdir=$path --genome=$softmask_genome --useexisting;
