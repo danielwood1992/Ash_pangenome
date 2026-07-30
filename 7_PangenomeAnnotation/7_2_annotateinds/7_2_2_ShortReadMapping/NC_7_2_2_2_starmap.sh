@@ -15,7 +15,7 @@ echo $ARRAY_NUM;
 
 #!/bin.bash
 #$ -cwd
-#$ -pe smp 5
+#$ -pe smp 1
 #$ -l h_rt=1:0:0
 #$ -l h_vmem=8G
 #$ -t ?
@@ -49,4 +49,3 @@ awk -v replacement=$hap_dir '{gsub("REPLACE_STRING_2", replacement)} 1' $hap_dir
 
 #This then submits a qarray job for each of the RNA-seq file samples
 qarray.sh $hap_dir/$sub_name.$name.sh;
-
